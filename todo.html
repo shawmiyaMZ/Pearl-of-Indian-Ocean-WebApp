@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body{
+            background-color: rgba(248, 248, 248, 0.5);
+        }
+        .container {
+            max-width: 900px;
+            max-height: 100vh;
+            margin: 0 auto;
+            background-color: rgba(24, 29, 27, 0.288);
+            color: rgb(22, 58, 26);
+            text-transform: uppercase;
+            font-weight: bold;
+
+        }
+        h1 {
+        	padding-top: 40px;
+            padding-left: 1%;
+            font-weight: 550;
+            font-size: 4rem;
+        }
+
+        h1 span{
+            color: rgb(116, 12, 12);
+            font-weight: 550;
+        }
+
+        button{
+            background-color: rgba(219, 223, 219, 0.644);
+            border: 2px solid rgb(10, 43, 15);
+            border-radius:40px;
+            margin-top: 2%;
+            margin-left: 1.5%;
+            color: rgb(18, 51, 5);
+            text-align: center;
+            font-size: 2rem;
+             height: 2.8rem;
+             line-height: 2.8rem;
+              padding: 0 1.5rem;
+            border: 2px solid rgb(10, 43, 15);
+
+        }
+        button:hover{
+            background-color: rgba(100, 139, 100, 0.774);
+            border: 2px solid rgb(10, 43, 15);
+            color: rgb(15, 37, 20);
+        }
+        #button{
+            background-color: rgba(219, 223, 219, 0.644);
+            border-radius:40px;
+            border: 2px solid rgb(10, 43, 15);
+            color: rgb(18, 51, 5);
+            text-align: center;
+            font-size: 1rem;
+             height: 3.5rem;
+             line-height: 3.5rem;
+              padding: 0 1.5rem;
+           
+            
+
+        }
+        #button:hover{
+            background-color: rgba(100, 139, 100, 0.774);
+            color: rgb(15, 37, 20);
+
+
+        }
+
+        #input{
+            background-color: rgba(250, 250, 250, 0.623);
+            border: 2px solid rgb(28, 109, 53);
+            border-radius: 20px;
+            color: #000;
+            width:80%;
+            font-size: 2rem;
+            font-weight: 500;
+            
+ 
+        }
+
+        #input::placeholder{
+
+            color: rgb(39, 44, 39);
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+
+        <h1>plan-<span> your </span>-trip</h1>
+
+        <div class="clearfix">
+        
+        
+
+        <div v-if="!isEditing">
+
+            <input type="text" v-model="todo" placeholder="Enter your Destinations" id="input" >
+            <input type="submit" value="Add" @click="storeTodo" class="float-right" id="button" ></input>
+
+        </div>
+
+    
+        <div v-else>
+            
+            <input type="text" v-model="todo" id="input">
+            <input type="submit" value="Update" @click="updateTodo" class="float-right" id="button">
+        </div>
+
+        <ol>
+            <li v-for="(todo, index) in todos">
+                {{ todo }}
+                <button @click="editTodo(index, todo)"><i class="fa fa-pencil"></i></button>
+                <button @click="removeTodo(index)"><i class="fa fa-trash"></i></button>
+            </li>
+        </ol>
+        
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            
+            data: {
+                isEditing: false,
+                todo: '',
+                todos: [],
+                selectedTodo: null
+            },
+            
+            methods: {
+                storeTodo() {
+                    this.todos.push(this.todo)
+                    this.todo = ''
+                },
+
+                removeTodo(index) {
+                    this.todos.splice(index, 1)
+                },
+
+                updateTodo() {
+                    this.todos.splice(this.selectedIndex, 1, this.todo)
+                    this.todo = ''
+                    this.isEditing = false
+                },
+
+                editTodo(index, todo) {
+                    this.isEditing = true
+                    this.todo = todo
+                    this.selectedIndex = index
+                }
+            }
+        })
+    </script>
+</body>
+</html>
